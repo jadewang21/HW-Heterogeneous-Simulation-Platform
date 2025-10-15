@@ -1,0 +1,2 @@
+Model,Platform,Input_Tokens,Output_Tokens,Weights (MB),KV Prefill (MB),KV Total (MB),KV Decode Delta (MB)
+llama2-7b-hf,0,4096,128,12852.51,2306.75,2376.76,70.01
