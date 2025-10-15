@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 ```bash
 # 设置Python路径
-export PYTHONPATH={YOUR_PATH}/delivery/GenZ-LLM-Analyzer-dense:$PYTHONPATH
+export PYTHONPATH=<YOUR_PATH>/delivery/GenZ-LLM-Analyzer-dense:$PYTHONPATH
 ```
 
 ### 内存分析
@@ -52,7 +52,7 @@ python delivery/GenZ-LLM-Analyzer-dense/notebook/mem-test/mem_profile_llama2_7b_
 对dense模型（如Llama系列）的性能预测，需要在GenZ-LLM-Analyzer-dense路径中进行，并且在运行下述启动器llm_simulation.py前需要执行：
 
 ```bash
-export PYTHONPATH={YOUR_PATH}/delivery/GenZ-LLM-Analyzer-dense:$PYTHONPATH
+export PYTHONPATH=<YOUR_PATH>/delivery/GenZ-LLM-Analyzer-dense:$PYTHONPATH
 ```
 
 性能预测前需要在物理机采集数据，并以chat.csv的形式存放在特定目录下，将存放物理机数据的目录输入到启动脚本即可开始仿真。
@@ -98,7 +98,7 @@ python delivery/GenZ-LLM-Analyzer-dense/notebook/fig_new_style.py \
 对MoE模型（如DeepSeek系列）的性能预测，需要在GenZ-LLM-Analyzer-moe路径中进行，并且在运行下述启动器deepseek_v3_4n8g.py前需要执行：
 
 ```bash
-export PYTHONPATH={YOUR_PATH}/delivery/GenZ-LLM-Analyzer-moe:$PYTHONPATH
+export PYTHONPATH=<YOUR_PATH>/delivery/GenZ-LLM-Analyzer-moe:$PYTHONPATH
 ```
 
 MoE模型目前仅支持DeepSeek-V3-671B，支持任意规模的RTX3090与RTX4090集群的仿真，执行：
