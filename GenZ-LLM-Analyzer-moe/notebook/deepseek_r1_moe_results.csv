@@ -1,0 +1,2 @@
+Request_ID,Model,Batch,TP,PP,Num_Nodes,Node_Topology,Interchip_BW(GB/s),Interchip_Latency(us),Input_Tokens,Output_Tokens,Beam_Size,TTFT(ms),TPOT(ms),E2E(ms),Prefill_Throughput(tokens/s),Decode_Throughput(tokens/s),Notes
+0,deepseek-r1,1,8,4,4,FullyConnected,10,1.9,80,512,1,,,,,,

@@ -1,0 +1,6 @@
+Metric,1000_GB/s,10_GB/s,Performance_Impact
+TTFT (ms),4050.58,14940.01,3.7x slower
+TPOT (ms),8.32,30.67,3.7x slower
+E2E (ms),5070.58,15251.34,3.0x slower
+Prefill Throughput (tokens/s),285.1,77.32,72.9% decrease
+Decode Throughput (tokens/s),120.18,32.61,72.9% decrease

@@ -1,0 +1,3 @@
+Model,Stage,Batch,Input_Tokens,Output_Tokens,Total Weights (MB),KV Cache (MB),Unused Weights (MB),On-chip Memory Footprint (MB)
+llama2_7b,Prefill,1,4096,0,12852.0,2048.0,0.0,1088.0
+llama2_7b,Decode,1,4096,128,12602.0,2112.0,0.0,250.06884765625
