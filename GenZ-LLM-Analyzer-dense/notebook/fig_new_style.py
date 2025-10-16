@@ -39,13 +39,13 @@ def validate_data(df_real, df_sim, bench, physical_cols, simulator_cols):
             simulator_missing.append(col)
     
     if physical_missing:
-        print(f"❌ 物理机数据缺少列: {physical_missing}")
+        print(f"物理机数据缺少列: {physical_missing}")
         return False
     if simulator_missing:
-        print(f"❌ 模拟器数据缺少列: {simulator_missing}")
+        print(f"模拟器数据缺少列: {simulator_missing}")
         return False
     
-    print(f"✅ 数据列检查通过")
+    print(f"数据列检查通过")
     
     # 显示前几行数据
     print(f"\n物理机数据预览:")
@@ -67,7 +67,7 @@ def main():
     output_dir = os.path.join(summary_dir, "llama2-32-fig")
     os.makedirs(output_dir, exist_ok=True)
 
-    benchmarks = ["chat", "humaneval", "mmlu"]
+    benchmarks = ["chat"]
 
     # 物理机和模拟器的列名映射
     physical_cols = {
@@ -88,7 +88,7 @@ def main():
         csv_sim = os.path.join(summary_dir, f"{bench}-sim.csv")
     
         if not os.path.exists(csv_real) or not os.path.exists(csv_sim):
-            print(f"❌ {bench} 缺少文件:")
+            print(f"{bench} 缺少文件:")
             print(f"  物理机: {csv_real} {'存在' if os.path.exists(csv_real) else '不存在'}")
             print(f"  模拟器: {csv_sim} {'存在' if os.path.exists(csv_sim) else '不存在'}")
             continue
@@ -98,7 +98,7 @@ def main():
             df_real = pd.read_csv(csv_real)
             df_sim = pd.read_csv(csv_sim)
         except Exception as e:
-            print(f"❌ {bench} 读取数据失败: {e}")
+            print(f"{bench} 读取数据失败: {e}")
             continue
         
         # 验证数据
@@ -108,7 +108,7 @@ def main():
         # 确保两个数据集有相同的行数
         min_rows = min(len(df_real), len(df_sim))
         if len(df_real) != len(df_sim):
-            print(f"⚠️ {bench} 数据行数不匹配，使用前{min_rows}行")
+            print(f"{bench} 数据行数不匹配，使用前{min_rows}行")
         
         df_real = df_real.head(min_rows)
         df_sim = df_sim.head(min_rows)
@@ -136,7 +136,7 @@ def main():
             valid_sim = [s for s, e in zip(sim_values, errors) if not np.isnan(e)]
             
             if not valid_errors:
-                print(f"❌ {bench} - {metric} 没有有效的误差数据")
+                print(f"{bench} - {metric} 没有有效的误差数据")
                 continue
         
             # === 绘图风格改造：与参考风格一致（不指定颜色，使用默认色板；虚线网格；紧凑布局）===
@@ -218,7 +218,7 @@ def main():
             plt.close()
             
             print(
-                f"✅ {bench} - {metric}: Mean Error = {mean_err:.1f}%, "
+                f"{bench} - {metric}: Mean Error = {mean_err:.1f}%, "
                 f"Correlation = {correlation:.3f}, Saved: {save_path}"
             )
 

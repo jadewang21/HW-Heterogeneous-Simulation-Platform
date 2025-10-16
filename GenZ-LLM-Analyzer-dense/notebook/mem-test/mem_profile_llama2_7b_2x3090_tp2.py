@@ -87,7 +87,7 @@ def main():
 
     # Save CSV next to this script
     out_dir = os.path.dirname(os.path.abspath(__file__))
-    out_path = os.path.join(out_dir, 'mem_metrics_llama2_7b_2x3090_tp2.csv')
+    out_path = os.path.join(out_dir, '../../../benchmark-mem/single_gpu_kv_metrics_llama2_7b_sim.csv')
     out_df.to_csv(out_path, index=False)
     print(f"Saved memory metrics to: {out_path}")
 

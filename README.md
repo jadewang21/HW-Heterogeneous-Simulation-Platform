@@ -9,11 +9,12 @@ GenZ-LLM-Analyzer提供准确的LLM推理性能预测，支持各种硬件配置
 ## 📁 项目结构
 
 ```
-delivery/
+HW-Heterogeneous-Simulation-Platform/
 ├── benchmark-mem/          # 内存分析测试项的物理机真实数据
 ├── benchmark-perf/         # 性能预测测试项的物理机真实数据  
 ├── GenZ-LLM-Analyzer-dense/ # Dense模型预测仿真平台（Llama系列等）
 ├── GenZ-LLM-Analyzer-moe/  # MoE模型预测仿真平台（DeepSeek系列等）
+├── script/  #快速开始三种测试脚本（仅需安装好依赖，然后直接执行对应.sh即可快速验证）
 └── README.md
 ```
 
@@ -28,40 +29,29 @@ delivery/
 pip install -r requirements.txt
 ```
 
-### 环境配置
-
-```bash
-# 设置Python路径
-export PYTHONPATH=<YOUR_PATH>/delivery/GenZ-LLM-Analyzer-dense:$PYTHONPATH
-```
 
 ### 内存分析
 
 执行内存使用模式分析：
 
 ```bash
-python delivery/GenZ-LLM-Analyzer-dense/notebook/mem-test/mem_profile_llama2_7b_2x3090_tp1.py
+cd script
+./mem.sh
 ```
 
-即可在当前目录生成llama2-7b模型样例request的内存占用分析结果，可与`delivery/benchmark-mem/single_gpu_kv_metrics_llama2_7b.csv`真实物理机测试数据作对比。
+即可在当前目录生成llama2-7b模型样例request的内存占用分析结果，可与`HW-Heterogeneous-Simulation-Platform/benchmark-mem/single_gpu_kv_metrics_llama2_7b.csv`真实物理机测试数据作对比。
 
 ### 性能预测
 
 #### Dense模型（Llama系列等）
 
-对dense模型（如Llama系列）的性能预测，需要在GenZ-LLM-Analyzer-dense路径中进行，并且在运行下述启动器llm_simulation.py前需要执行：
-
-```bash
-export PYTHONPATH=<YOUR_PATH>/delivery/GenZ-LLM-Analyzer-dense:$PYTHONPATH
-```
-
-性能预测前需要在物理机采集数据，并以chat.csv的形式存放在特定目录下，将存放物理机数据的目录输入到启动脚本即可开始仿真。
+对dense模型（如Llama系列）的性能预测，性能预测前需要在物理机采集数据，并以chat.csv的形式存放在特定目录下，将存放物理机数据的目录输入到启动脚本即可开始仿真。
 
 **使用示例：**
 
 1. **查看所有可用参数**：
 ```bash
-python delivery/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py --help
+python HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py --help
 ```
 
 **主要参数说明**：
@@ -79,7 +69,7 @@ python delivery/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py --help
 
 2. **进行单卡RTX3090推理llama2-7b的仿真**：
 ```bash
-python delivery/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py \
+python HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py \
     --tp_nodes 1 \
     --system RTX3090_GPU \
     --summary_dir ../../benchmark-perf/3090-tp1-llama2-7b
@@ -87,24 +77,24 @@ python delivery/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py \
 
 3. **获取预测的性能结果，保存在benchmark-perf/3090-tp1-llama2-7b，如需可视化**：
 ```bash
-python delivery/GenZ-LLM-Analyzer-dense/notebook/fig_new_style.py \
+python HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-dense/notebook/fig_new_style.py \
     --summary_dir ../../benchmark-perf/3090-tp1-llama2-7b
 ```
 
-可视化结果保存在`delivery/benchmark-perf/3090-tp1-llama2-7b/llama2-32-fig`
+可视化结果保存在`HW-Heterogeneous-Simulation-Platform/benchmark-perf/3090-tp1-llama2-7b/llama2-32-fig`
 
 #### MoE模型（DeepSeek系列等）
 
 对MoE模型（如DeepSeek系列）的性能预测，需要在GenZ-LLM-Analyzer-moe路径中进行，并且在运行下述启动器deepseek_v3_4n8g.py前需要执行：
 
 ```bash
-export PYTHONPATH=<YOUR_PATH>/delivery/GenZ-LLM-Analyzer-moe:$PYTHONPATH
+export PYTHONPATH=<YOUR_PATH>/HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-moe:$PYTHONPATH
 ```
 
 MoE模型目前仅支持DeepSeek-V3-671B，支持任意规模的RTX3090与RTX4090集群的仿真，执行：
 
 ```bash
-python delivery/GenZ-LLM-Analyzer-moe/notebook/scale-test/deepseek_v3_4n8g.py
+python HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-moe/notebook/scale-test/deepseek_v3_4n8g.py
 ```
 
 即可在终端输出6节点，单节点8卡，pp = 6，tp = 8的4090集群推理非量化DeepSeek-V3-671B模型的性能预测数据，结果可与《G5208DS-R1-Cluster DeepSeek大模型推性能白皮书》中结果对比，如需更改配置，可直接修改deepseek_v3_4n8g.py中的common_kwargs字典。
@@ -125,7 +115,7 @@ python delivery/GenZ-LLM-Analyzer-moe/notebook/scale-test/deepseek_v3_4n8g.py
 
 ### 自定义系统配置
 
-如需添加修改系统配置，可以在`delivery/GenZ-LLM-Analyzer-dense/Systems/system_configs.py`按照已有格式任意添加：
+如需添加修改系统配置，可以在`HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-dense/Systems/system_configs.py`按照已有格式任意添加：
 
 ```python
 system_configs: Dict[str, Dict[str, Any]] = {
@@ -224,14 +214,14 @@ system_configs: Dict[str, Dict[str, Any]] = {
 ### 内存分析测试
 
 ```bash
-python delivery/GenZ-LLM-Analyzer-dense/notebook/mem-test/mem_profile_llama2_7b_2x3090_tp1.py
+python HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-dense/notebook/mem-test/mem_profile_llama2_7b_2x3090_tp1.py
 ```
 
 ### 性能仿真测试
 
 ```bash
 # 测试不同配置
-python delivery/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py \
+python HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py \
     --model llama2_7b \
     --system RTX3090_GPU \
     --tp_nodes 2 \
@@ -246,7 +236,7 @@ python delivery/GenZ-LLM-Analyzer-dense/notebook/llm_simulation.py \
 
 ```bash
 # DeepSeek-V3-671B在6节点集群上
-python delivery/GenZ-LLM-Analyzer-moe/notebook/scale-test/deepseek_v3_4n8g.py
+python HW-Heterogeneous-Simulation-Platform/GenZ-LLM-Analyzer-moe/notebook/scale-test/deepseek_v3_4n8g.py
 ```
 
 ### 自定义模型集成
